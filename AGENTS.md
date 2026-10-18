@@ -8,7 +8,7 @@ Instructions for AI coding agents working in this repository.
 
 ## Project overview
 
-ratekeeper is a gRPC currency conversion and exchange-rate service in Rust (a Cargo workspace,
+Currency Exchange Service is a gRPC currency conversion and exchange-rate service in Rust (a Cargo workspace,
 tonic + sqlx + PostgreSQL). It converts human-readable amounts to and from integer storage
 units (scale `1e9`) and exchanges between currencies at rates that a scheduled `sync` job
 loads from OpenExchangeRates, Coinbase and CoinGecko. Conversions are served from an

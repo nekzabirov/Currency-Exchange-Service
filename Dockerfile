@@ -3,7 +3,7 @@
 # Self-contained multi-stage build: compiles the four binaries from source and ships them on a
 # slim Debian runtime.
 #
-#   docker build -t ratekeeper .
+#   docker build -t currency-exchange-service .
 #
 # Why glibc rather than alpine: rustls and reqwest link against glibc, and musl builds of this kind
 # of dependency tree have proven fragile. Saving twenty megabytes is not worth it.

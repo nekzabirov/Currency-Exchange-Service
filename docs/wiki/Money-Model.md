@@ -33,7 +33,7 @@ and an exchange would silently zero the amount.
 All arithmetic runs in `Decimal`, never in `f64`. The contract carries amounts as `double`,
 and `Decimal::from_f64_retain` takes exactly the decimal digits the double held. From there
 everything is exact. A naive `0.1 * 1e9` in floating point gives `100000000.00000001`.
-ratekeeper gives `100000000`.
+Currency Exchange Service gives `100000000`.
 
 ### Representation (`ConvertToUnits` / `ConvertFromUnits`)
 

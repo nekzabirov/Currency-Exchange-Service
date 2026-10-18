@@ -1,12 +1,12 @@
 <div align="center">
 
-# ratekeeper
+# Currency Exchange Service
 
 **Fast gRPC currency conversion and exchange-rate service in Rust.**
 
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Rust](https://img.shields.io/badge/rust-1.88-orange.svg?logo=rust)](rust-toolchain.toml)
-[![CI](https://github.com/nekzabirov/ratekeeper/actions/workflows/ci.yml/badge.svg)](https://github.com/nekzabirov/ratekeeper/actions/workflows/ci.yml)
+[![CI](https://github.com/nekzabirov/Currency-Exchange-Service/actions/workflows/ci.yml/badge.svg)](https://github.com/nekzabirov/Currency-Exchange-Service/actions/workflows/ci.yml)
 
 </div>
 
@@ -16,7 +16,7 @@ Money is stored as integers. Systems that move money still have to turn `10.50 U
 storage units and back, and exchange one currency for another at a current rate. They need
 to get this right every time, in microseconds, on the hot path of every transaction.
 
-ratekeeper does that one job. It keeps a small currency registry in Postgres, refreshes
+Currency Exchange Service does that one job. It keeps a small currency registry in Postgres, refreshes
 exchange rates from public vendors on a schedule, and serves conversions from an in-memory
 snapshot. A conversion request never touches the database.
 
@@ -67,7 +67,7 @@ app ──► api ──► store ──► core
 ```
 
 The rate adapters depend only on `provider-sdk`, so they cannot reach the database.
-See [Architecture](https://github.com/nekzabirov/ratekeeper/wiki/Architecture) in the wiki
+See [Architecture](https://github.com/nekzabirov/Currency-Exchange-Service/wiki/Architecture) in the wiki
 for the design decisions.
 
 ## Quick start
@@ -75,8 +75,8 @@ for the design decisions.
 Requirements: Docker with Compose v2.
 
 ```bash
-git clone https://github.com/nekzabirov/ratekeeper.git
-cd ratekeeper
+git clone https://github.com/nekzabirov/Currency-Exchange-Service.git
+cd Currency-Exchange-Service
 docker compose up --build
 ```
 
@@ -133,7 +133,7 @@ All configuration comes from environment variables. An empty provider value
 | `COINGECKO_BASE_URL`  | `https://api.coingecko.com/api/v3`   | `sync`            | Override of the CoinGecko API URL. |
 | `COINGECKO_MAPPING`   | none                                 | `sync`            | Extra `CODE:coin-id` pairs, comma-separated (e.g. `TON:the-open-network`). Entries override the built-in table. |
 
-See [Configuration](https://github.com/nekzabirov/ratekeeper/wiki/Configuration) for details.
+See [Configuration](https://github.com/nekzabirov/Currency-Exchange-Service/wiki/Configuration) for details.
 
 ## API overview
 
@@ -150,7 +150,7 @@ gRPC service `currency.v1.CurrencyService`, defined in
 - Every currency uses a scale of `1e9`, so `1.0` equals `1000000000` units.
 - Send `x-request-id` in the call metadata to have it logged as `traceId`.
 - Refusals carry `x-error-code` in the metadata. See
-  [Error Codes](https://github.com/nekzabirov/ratekeeper/wiki/Error-Codes).
+  [Error Codes](https://github.com/nekzabirov/Currency-Exchange-Service/wiki/Error-Codes).
 
 HTTP: `GET /__health` on `HTTP_PORT` returns `ok`, and `GET /metrics` on `METRICS_PORT`
 returns Prometheus text. The service has no other REST or WebSocket endpoints.
@@ -198,7 +198,7 @@ cargo run --bin currency-manager
 
 ## Documentation
 
-The full documentation lives in the [Wiki](https://github.com/nekzabirov/ratekeeper/wiki).
+The full documentation lives in the [Wiki](https://github.com/nekzabirov/Currency-Exchange-Service/wiki).
 Its source is in [`docs/wiki/`](docs/wiki). It covers getting started, configuration,
 architecture, the API, deployment, rate providers, the money model and error codes.
 

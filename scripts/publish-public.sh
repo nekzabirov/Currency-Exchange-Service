@@ -17,7 +17,7 @@
 
 set -euo pipefail
 
-PUBLIC_REPO=nekzabirov/ratekeeper
+PUBLIC_REPO=nekzabirov/Currency-Exchange-Service
 
 AUTHOR_NAME="Nekbakht Zabirov"
 AUTHOR_EMAIL="17720956+nekzabirov@users.noreply.github.com"

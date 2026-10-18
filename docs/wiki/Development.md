@@ -64,4 +64,4 @@ messages or the service. Add new fields with new numbers.
 > update `README.md` and the relevant pages in `docs/wiki/` in the same commit / pull request. A change is not
 > done until the docs match the code.
 
-See also [CONTRIBUTING.md](https://github.com/nekzabirov/ratekeeper/blob/main/CONTRIBUTING.md).
+See also [CONTRIBUTING.md](https://github.com/nekzabirov/Currency-Exchange-Service/blob/main/CONTRIBUTING.md).

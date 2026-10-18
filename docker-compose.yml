@@ -9,10 +9,10 @@
 #
 # Scheduling lives outside the binaries: run `sync` from cron, a Kubernetes CronJob or similar.
 
-name: ratekeeper
+name: currency-exchange-service
 
 x-image: &image
-  image: ratekeeper:local
+  image: currency-exchange-service:local
   build:
     context: .
 

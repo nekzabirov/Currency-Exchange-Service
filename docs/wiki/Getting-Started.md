@@ -6,8 +6,8 @@ Requirements: Docker with Compose v2. You do not need a Rust toolchain: the imag
 from source.
 
 ```bash
-git clone https://github.com/nekzabirov/ratekeeper.git
-cd ratekeeper
+git clone https://github.com/nekzabirov/Currency-Exchange-Service.git
+cd Currency-Exchange-Service
 docker compose up --build
 ```
 

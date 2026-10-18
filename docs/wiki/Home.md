@@ -1,8 +1,8 @@
-# ratekeeper
+# Currency Exchange Service
 
 **Fast gRPC currency conversion and exchange-rate service in Rust.**
 
-ratekeeper answers two questions about money:
+Currency Exchange Service answers two questions about money:
 
 1. **What does this amount look like in storage units?** For example, `10.50 UAH` is
    `10500000000` units. This is a change of representation and needs no exchange rate.
@@ -31,7 +31,7 @@ request never touches the database.
 > update `README.md` and the relevant pages in `docs/wiki/` in the same commit / pull request. A change is not
 > done until the docs match the code.
 
-The wiki is generated from [`docs/wiki/`](https://github.com/nekzabirov/ratekeeper/tree/main/docs/wiki)
+The wiki is generated from [`docs/wiki/`](https://github.com/nekzabirov/Currency-Exchange-Service/tree/main/docs/wiki)
 in the main repository. Edit it there, not in the wiki UI.
 
 Used in production at [1638.cloud](https://1638.cloud).

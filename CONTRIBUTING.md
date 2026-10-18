@@ -1,6 +1,6 @@
-# Contributing to ratekeeper
+# Contributing to Currency Exchange Service
 
-Thanks for your interest in improving ratekeeper. This guide covers how to build, test and
+Thanks for your interest in improving Currency Exchange Service. This guide covers how to build, test and
 submit changes.
 
 > **Documentation rule.** Every change that affects behaviour, configuration, API, build or deployment MUST
@@ -53,7 +53,7 @@ docker compose up --build
 
 ## Adding a rate provider
 
-See [Rate Providers](https://github.com/nekzabirov/ratekeeper/wiki/Rate-Providers) in the wiki.
+See [Rate Providers](https://github.com/nekzabirov/Currency-Exchange-Service/wiki/Rate-Providers) in the wiki.
 
 ## Wiki
 

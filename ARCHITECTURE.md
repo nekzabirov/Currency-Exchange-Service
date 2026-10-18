@@ -2,7 +2,7 @@
 
 The architecture is documented in the wiki:
 [docs/wiki/Architecture.md](docs/wiki/Architecture.md)
-(published at https://github.com/nekzabirov/ratekeeper/wiki/Architecture).
+(published at https://github.com/nekzabirov/Currency-Exchange-Service/wiki/Architecture).
 
 Related pages:
 

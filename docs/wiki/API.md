@@ -3,7 +3,7 @@
 ## gRPC
 
 Package `currency.v1`, service `CurrencyService`. The contract lives in
-[`proto/currency/v1/currency.proto`](https://github.com/nekzabirov/ratekeeper/blob/main/proto/currency/v1/currency.proto).
+[`proto/currency/v1/currency.proto`](https://github.com/nekzabirov/Currency-Exchange-Service/blob/main/proto/currency/v1/currency.proto).
 The server listens on `GRPC_PORT` (default `9090`) in plaintext and does not enable reflection.
 
 ```proto

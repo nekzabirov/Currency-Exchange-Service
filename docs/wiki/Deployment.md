@@ -5,7 +5,7 @@
 The repository's `Dockerfile` is a self-contained multi-stage build:
 
 ```bash
-docker build -t ratekeeper .
+docker build -t currency-exchange-service .
 ```
 
 - Build stage: `rust:1.88-slim-bookworm` plus `protobuf-compiler`, running
@@ -51,13 +51,13 @@ Example CronJob container spec:
 ```yaml
 containers:
   - name: sync
-    image: ratekeeper:latest
+    image: currency-exchange-service:latest
     command: ["sync"]
     env:
       - name: DATABASE_URL
-        valueFrom: {secretKeyRef: {name: ratekeeper, key: database-url}}
+        valueFrom: {secretKeyRef: {name: currency-exchange-service, key: database-url}}
       - name: OPENEXCHANGE_APP_ID
-        valueFrom: {secretKeyRef: {name: ratekeeper, key: openexchange-app-id}}
+        valueFrom: {secretKeyRef: {name: currency-exchange-service, key: openexchange-app-id}}
 ```
 
 ## Docker Compose
