@@ -199,7 +199,7 @@ if [[ ! -d "$EXPORT_DIR/.git" ]]; then
     exit 1
 fi
 if ! git -C "$EXPORT_DIR" remote get-url origin >/dev/null 2>&1; then
-    git -C "$EXPORT_DIR" remote add origin "https://github.com/${PUBLIC_REPO}.git"
+    git -C "$EXPORT_DIR" remote add origin "git@github.com:${PUBLIC_REPO}.git"
 fi
 if commit_as_author "$EXPORT_DIR" "$MESSAGE"; then
     git -C "$EXPORT_DIR" push origin HEAD:main
@@ -207,7 +207,7 @@ fi
 
 echo "==> Syncing the wiki"
 WIKI="$WORK/wiki"
-if ! git clone --quiet "https://github.com/${PUBLIC_REPO}.wiki.git" "$WIKI"; then
+if ! git clone --quiet "git@github.com:${PUBLIC_REPO}.wiki.git" "$WIKI"; then
     echo "error: cannot clone the wiki; create its first page once in the GitHub UI, then rerun" >&2
     exit 1
 fi
