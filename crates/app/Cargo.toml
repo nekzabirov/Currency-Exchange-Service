@@ -1,0 +1,45 @@
+[package]
+name = "currency-manager"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+# Server: gRPC with the conversions and HTTP with the probe.
+[[bin]]
+name = "currency-manager"
+path = "src/main.rs"
+
+# Jobs. Each is a separate process with its own schedule and its own fate: a failed sync must not
+# take the server down, and the migration must finish BEFORE the server starts.
+[[bin]]
+name = "migrate"
+path = "src/bin/migrate.rs"
+
+[[bin]]
+name = "seed"
+path = "src/bin/seed.rs"
+
+[[bin]]
+name = "sync"
+path = "src/bin/sync.rs"
+
+[dependencies]
+currency-api.workspace = true
+currency-core.workspace = true
+currency-provider-sdk.workspace = true
+currency-providers.workspace = true
+currency-store.workspace = true
+
+anyhow.workspace = true
+axum = "0.8.9"
+metrics.workspace = true
+metrics-exporter-prometheus.workspace = true
+metrics-process.workspace = true
+rust_decimal.workspace = true
+sqlx.workspace = true
+tokio.workspace = true
+tonic.workspace = true
+tower-layer.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true

@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package currency.v1;
+
+// Money conversion.
+//
+// TWO DIFFERENT OPERATIONS that must not be confused:
+//
+//   ConvertToUnits / ConvertFromUnits change the REPRESENTATION of one and the same amount. The
+//   exchange rate plays no part: 10.50 UAH and 10500000000 units are the same money.
+//
+//   ConvertUnits is an EXCHANGE. The rate applies, and the result depends on when it was asked.
+//
+// The failure reason arrives as a stable code in the `x-error-code` metadata key
+// (UNKNOWN_CURRENCY, RATE_MISSING, INVALID_AMOUNT, INTERNAL).
+// The gRPC status code is not enough: "currency not in the registry" and "rate never arrived" are
+// both FAILED_PRECONDITION, yet different people fix them.
+service CurrencyService {
+  // Human-readable amount -> storage units.
+  rpc ConvertToUnits(ConvertToUnitsRequest) returns (UnitsResponse);
+
+  // Storage units -> human-readable amount.
+  rpc ConvertFromUnits(ConvertFromUnitsRequest) returns (AmountResponse);
+
+  // Units of one currency -> units of another, at the current rate.
+  rpc ConvertUnits(ConvertUnitsRequest) returns (UnitsResponse);
+}
+
+message ConvertToUnitsRequest {
+  double amount = 1;
+  string currency = 2;
+}
+
+message ConvertFromUnitsRequest {
+  int64 units = 1;
+  string currency = 2;
+}
+
+message ConvertUnitsRequest {
+  int64 units = 1;
+  string currency = 2;
+  string to_currency = 3;
+}
+
+message UnitsResponse {
+  int64 units = 1;
+}
+
+message AmountResponse {
+  double amount = 1;
+}

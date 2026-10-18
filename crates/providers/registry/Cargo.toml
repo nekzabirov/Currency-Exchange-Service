@@ -1,0 +1,19 @@
+[package]
+name = "currency-providers"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+currency-provider-sdk.workspace = true
+
+currency-provider-openexchange = { workspace = true, optional = true }
+currency-provider-coingecko = { workspace = true, optional = true }
+currency-provider-coinbase = { workspace = true, optional = true }
+
+[features]
+default = ["openexchange", "coingecko", "coinbase"]
+openexchange = ["dep:currency-provider-openexchange"]
+coingecko = ["dep:currency-provider-coingecko"]
+coinbase = ["dep:currency-provider-coinbase"]

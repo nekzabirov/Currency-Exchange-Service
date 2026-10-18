@@ -1,0 +1,19 @@
+[package]
+name = "currency-provider-coinbase"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+currency-provider-sdk.workspace = true
+
+async-trait.workspace = true
+reqwest.workspace = true
+rust_decimal.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+tokio.workspace = true

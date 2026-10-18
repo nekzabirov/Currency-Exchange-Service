@@ -1,0 +1,15 @@
+[package]
+name = "currency-store"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+build = "build.rs"
+
+[dependencies]
+currency-core.workspace = true
+
+chrono.workspace = true
+rust_decimal.workspace = true
+sqlx.workspace = true
+tracing.workspace = true

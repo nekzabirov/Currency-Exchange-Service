@@ -1,0 +1,66 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/core",
+    "crates/provider-sdk",
+    "crates/providers/registry",
+    "crates/providers/openexchange",
+    "crates/providers/coingecko",
+    "crates/providers/coinbase",
+    "crates/store",
+    "crates/api",
+    "crates/app",
+]
+
+# Production profile: LTO across the whole tree and a single codegen unit, so calls across crate
+# boundaries get inlined. It matters more than usual here: the whole point of the service is to
+# answer a conversion in microseconds, and the request path crosses four crates.
+# `panic` stays `unwind`: a panic in one tokio task must not take the process down.
+[profile.release]
+lto = "fat"
+codegen-units = 1
+strip = "debuginfo"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.88"
+license = "Apache-2.0"
+
+[workspace.dependencies]
+currency-core = { path = "crates/core" }
+currency-provider-sdk = { path = "crates/provider-sdk" }
+currency-providers = { path = "crates/providers/registry" }
+currency-provider-openexchange = { path = "crates/providers/openexchange" }
+currency-provider-coingecko = { path = "crates/providers/coingecko" }
+currency-provider-coinbase = { path = "crates/providers/coinbase" }
+currency-store = { path = "crates/store" }
+currency-api = { path = "crates/api" }
+
+anyhow = "1"
+arc-swap = "1"
+async-trait = "0.1"
+chrono = { version = "0.4", features = ["serde"] }
+metrics = "0.24.6"
+# Without the default features: their listener answers on every path of its own port and their push
+# gateway brings aws-lc-rs as a second crypto provider. `/metrics` is served by the app's axum instead.
+metrics-exporter-prometheus = { version = "0.18.3", default-features = false }
+metrics-process = "2.4.3"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+rust_decimal = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sqlx = { version = "0.8", default-features = false, features = ["postgres", "runtime-tokio-rustls", "chrono", "macros", "migrate", "rust_decimal"] }
+thiserror = "2"
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["json", "env-filter"] }
+# TLS is not among tonic's default features: without them an `https://` endpoint opens plain TCP on
+# 443, sends the h2 preface in the clear and hangs until the timeout. Clients may reach the service
+# through a TLS-terminating load balancer. `ring` is the same crypto backend reqwest already pulls
+# in; no second provider is added to the tree.
+tonic = { version = "0.14", features = ["tls-ring", "tls-webpki-roots", "tls-native-roots"] }
+tonic-prost = "0.14"
+tonic-prost-build = "0.14"
+tower-layer = "0.3.3"
+prost = "0.14"

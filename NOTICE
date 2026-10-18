@@ -1,0 +1,18 @@
+ratekeeper
+Copyright 2026 Nekbakht Zabirov
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Third-party material
+--------------------
+
+This repository does not vendor third-party source code or assets. Rust
+dependencies are fetched by Cargo at build time and remain under their own
+licenses (see Cargo.lock for the exact set).
+
+crates/core/src/logging.rs implements the `civil_from_days` algorithm
+described by Howard Hinnant in "chrono-Compatible Low-Level Date Algorithms"
+(https://howardhinnant.github.io/date_algorithms.html).
+
+Exchange-rate data is fetched at runtime from OpenExchangeRates, Coinbase and
+CoinGecko. Use of those APIs is subject to each vendor's own terms of service.

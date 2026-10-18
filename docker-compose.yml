@@ -1,0 +1,88 @@
+# Local stack: Postgres, schema migration, seed and the gRPC server.
+#
+#   docker compose up --build           # database, migration, seed, server
+#
+# Manual rate sync (fiat rates need OPENEXCHANGE_APP_ID in the environment; crypto via Coinbase
+# needs no key):
+#
+#   OPENEXCHANGE_APP_ID=... docker compose run --rm sync
+#
+# Scheduling lives outside the binaries: run `sync` from cron, a Kubernetes CronJob or similar.
+
+name: ratekeeper
+
+x-image: &image
+  image: ratekeeper:local
+  build:
+    context: .
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: currency
+      POSTGRES_PASSWORD: currency
+      POSTGRES_DB: currency
+    # Non-standard host port: a developer usually already has something on 5432.
+    ports: ["55432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U currency -d currency"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  migrate:
+    <<: *image
+    command: ["migrate"]
+    restart: "no"
+    environment:
+      DATABASE_URL: postgres://currency:currency@postgres:5432/currency
+      RUST_LOG: info
+    depends_on:
+      postgres: {condition: service_healthy}
+
+  seed:
+    <<: *image
+    command: ["seed"]
+    restart: "no"
+    environment:
+      DATABASE_URL: postgres://currency:currency@postgres:5432/currency
+      RUST_LOG: info
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+
+  currency-manager:
+    <<: *image
+    ports:
+      - "59090:9090"
+      - "58080:8080"
+      - "59464:9464"
+    environment:
+      DATABASE_URL: postgres://currency:currency@postgres:5432/currency
+      GRPC_PORT: "9090"
+      HTTP_PORT: "8080"
+      METRICS_PORT: "9464"
+      RUST_LOG: "info,currency=debug"
+    depends_on:
+      seed: {condition: service_completed_successfully}
+
+  # One-off sync run. `docker compose run --rm sync`.
+  sync:
+    <<: *image
+    command: ["sync"]
+    restart: "no"
+    profiles: ["manual"]
+    environment:
+      DATABASE_URL: postgres://currency:currency@postgres:5432/currency
+      BASE_CURRENCY: EUR
+      RUST_LOG: "info,currency=debug"
+      # Keys come from the host environment. Without OPENEXCHANGE_APP_ID the fiat adapter refuses
+      # (and the run exits non-zero), while the crypto adapter still works: Coinbase needs no key.
+      OPENEXCHANGE_APP_ID: ${OPENEXCHANGE_APP_ID:-}
+      COINGECKO_API_KEY: ${COINGECKO_API_KEY:-}
+    depends_on:
+      seed: {condition: service_completed_successfully}
+
+volumes:
+  pgdata:
